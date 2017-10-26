@@ -1,3 +1,5 @@
+package src;
+
 /**
  * @author Bourbon
  * @date 2017/10/26
@@ -48,6 +50,7 @@ public class Analyzer extends TypeCheck {
 					generate("id", token);
 				}
 			}
+
 			//数字开头的数字串
 			else if (isNum(current)) {
 				//读入完整的数字串
@@ -67,32 +70,53 @@ public class Analyzer extends TypeCheck {
 					generate("num", token);
 				}
 			}
+
 			//运算符
 			else if (isOperator(current)) {
 				//识别可能的注释（依然有可能是除号）
 				if (current == '/') {
+					token += current;
 					getOne();
-					//段落注释/**/
+					//段落注释/* */
 					if (current == '*'){
-
+						token += current;
+						while(true){
+							getOne();
+							token += current;
+							if(current=='*'){
+								getOne();
+								token += current;
+								if(current=='/'){
+									generate("doc",token);
+									break;
+								}
+							}
+						}
 					}
 					//整行注释//
-					if (current == '/'){
-
+					else if (current == '/'){
+						while(current!=10){
+							getOne();
+						}
+						//结束时current中为换行符
 					}
-					resetPtr();
+					//非注释，单字符'/'
+					else{
+						resetPtr();
+						generate("operator", token);
+					}
+				}else{
+					generate("operator", current+"");
 				}
-
 			}
+
 			//分界符
 			else if (isSeparator(current)) {
-
+				generate("separator", current+"");
 			}
-
 			//无法识别的字符，报错并停止分析
 			else {
 				generate("error", current + "");
-				break;
 			}
 		}
 	}
@@ -101,8 +125,13 @@ public class Analyzer extends TypeCheck {
 	 * @description 从stringBuffer中读入ptr指向的字符到current，并将ptr向后移一位
 	 */
 	private void getOne() {
-		current = stringBuffer.charAt(ptr);
-		ptr++;
+		if (ptr<stringBuffer.length()){
+			current = stringBuffer.charAt(ptr);
+			ptr++;
+		}
+		else{
+			current = ' ';
+		}
 	}
 
 	/**

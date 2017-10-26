@@ -1,3 +1,5 @@
+package src;
+
 import java.io.*;
 
 /**
@@ -56,9 +58,11 @@ public class FileIO {
 			}
 			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile(),true));
 			bufferedWriter.write(outputString);
+			bufferedWriter.newLine();
 			bufferedWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 }
