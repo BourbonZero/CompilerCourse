@@ -5,11 +5,16 @@
  */
 public class Production {
 
-	public String left;
+	public Character left;
 	public String right;
 
-	public Production(String s1, String s2){
+	public Production(Character s1, String s2){
 		left = s1;
 		right = s2;
+	}
+
+	public String print(){
+		String output = left+"->"+right;
+		return output;
 	}
 }

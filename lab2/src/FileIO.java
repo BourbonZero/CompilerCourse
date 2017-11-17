@@ -54,14 +54,14 @@ public class FileIO {
 	public static boolean writeFile(String outputString) {
 		try {
 			File file = new File("./output.txt");
-			if (file.exists()) {
-			} else {
+			if (!file.exists()) {
 				file.createNewFile();
 			}
 			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true));
 			bufferedWriter.write(outputString);
 			bufferedWriter.newLine();
 			bufferedWriter.close();
+			System.out.println(outputString);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -72,18 +72,35 @@ public class FileIO {
 	/**
 	 * @description 读入CFG
 	 */
-	public static boolean getCFG(ArrayList<Production> productions){
+	public static boolean getCFG(ArrayList<Production> productions, ArrayList<Character> terminals, ArrayList<Character> nonTerminals) {
 		try {
+			writeFile("CFG:");
+
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("./cfg.txt")));
+			//读入所有产生式
 			String line = null;
-			while((line = bufferedReader.readLine())!=null){
-				String[] temp = line.split(",");
-				Production production = new Production(temp[0],temp[1]);
+			while ((line = bufferedReader.readLine()).contains("->")) {
+				String[] temp = line.split("->");
+				Production production = new Production(temp[0].charAt(0), temp[1]);
 				productions.add(production);
+				writeFile(production.print());
+			}
+
+			//读入所有终结符
+			String[] terminal = bufferedReader.readLine().split(",");
+			for (String string : terminal) {
+				terminals.add(string.charAt(0));
+			}
+			bufferedReader.readLine();
+
+			//读入所有非终结符
+			String[] nonTerminal = bufferedReader.readLine().split(",");
+			for (String string : nonTerminal) {
+				nonTerminals.add(string.charAt(0));
 			}
 			bufferedReader.close();
 			return true;
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

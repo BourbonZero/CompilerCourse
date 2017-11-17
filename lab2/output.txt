@@ -1,0 +1,22 @@
+CFG:
+S->TE
+E->+TE
+E->`
+T->FY
+Y->*FY
+Y->`
+F->i
+F->(S)
+Output derivations:
+S->TE
+T->FY
+F->i
+Y->`
+E->+TE
+T->FY
+F->i
+Y->*FY
+F->i
+Y->`
+E->`
+success!
