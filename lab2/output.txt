@@ -7,6 +7,10 @@ Y->*FY
 Y->`
 F->i
 F->(S)
+ 
+Input stream of Characters:
+i+i*i$
+ 
 Output derivations:
 S->TE
 T->FY

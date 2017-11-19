@@ -19,7 +19,7 @@ public class ParsingTable {
 	 * @description 初始化CFG
 	 * 获得所有产生式，终结符，非终结符，并构建空PPT
 	 */
-	public void initialize() {
+	public void initializeCFG() {
 		FileIO.getCFG(productions, terminals, nonTerminals);
 
 		numOfTerminals = terminals.size();
@@ -59,8 +59,9 @@ public class ParsingTable {
 				}
 			}
 		}
-		System.out.println("PPT:");
+
 		//打印分析表
+		System.out.println("PPT:");
 		for (int i= 0;i<nonTerminals.size();i++){
 			for (int j = 0;j<terminals.size();j++){
 				if (table[i][j]!=null){

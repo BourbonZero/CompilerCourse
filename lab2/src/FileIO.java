@@ -21,6 +21,9 @@ public class FileIO {
 				buffer.append(inputString);
 			}
 			bufferedReader.close();
+			writeFile("Input stream of Characters:");
+			writeFile(buffer.toString());
+			writeFile(" ");
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -85,6 +88,7 @@ public class FileIO {
 				productions.add(production);
 				writeFile(production.print());
 			}
+			writeFile(" ");
 
 			//读入所有终结符
 			String[] terminal = bufferedReader.readLine().split(",");

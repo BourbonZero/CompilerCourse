@@ -14,16 +14,29 @@ public class Parser extends ParsingTable {
 	private StringBuffer stringBuffer = new StringBuffer();
 
 	public Parser() {
-		FileIO.readFile(stringBuffer, "./input.txt");
+		//清空输出文件output.txt
 		FileIO.clearFile();
-		initialize();
-		getTable();
+
+		//读入cfg并初始化
+		initializeCFG();
+
+		//读入输入流input.txt
+		FileIO.readFile(stringBuffer, "./input.txt");
+
 	}
 
 	/**
 	 * @description 分析主方法
 	 */
 	public void parse() {
+		//构造PPT
+		boolean flag = getTable();
+		if(flag == false){
+			FileIO.writeFile("Failure:PPT构造冲突，cfg不是LL(1)文法！");
+			return;
+		}
+
+		//开始打印推导序列
 		FileIO.writeFile("Output derivations:");
 
 		//初始化：栈，读头
